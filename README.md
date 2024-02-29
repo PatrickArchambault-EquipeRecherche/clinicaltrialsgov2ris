@@ -9,15 +9,16 @@ Second, we have to decide which Fields from the trial registration to include, a
 
 Here are the choices made:
 
-CSV Heading | RIS Field
-NCT Number | DOI
-Study Title | TI (Title)
-Study URL | UR (URL)
-Acronym | J2 (Alternate Title)
-Brief Summary | AB (Abstract)
-Interventions | U1 (Notes 1)
-Study Design | U2 (Notes 2)
-Completion Date | YR (Publication Year)
-Study Documents | L1 (File Attachments)
+|CSV Heading | RIS Field|
+|--------------------|--------------------|
+|NCT Number | DOI|
+|Study Title | TI (Title)|
+|Study URL | UR (URL)|
+|Acronym | J2 (Alternate Title)|
+|Brief Summary | AB (Abstract)|
+|Interventions | U1 (Notes 1)|
+|Study Design | U2 (Notes 2)|
+|Completion Date | YR (Publication Year)|
+|Study Documents | L1 (File Attachments)|
 
 I am also adding "clinicaltrials.gov" as a DB field (Database), and todays date as an RD field (Retrieved Date).
