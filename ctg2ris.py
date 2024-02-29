@@ -12,7 +12,7 @@ import sys
 
 
 def no_newline(my_string):
-    new_str = str(my_string).replace("\n","")
+    new_str = str(my_string).replace("\n"," ")
 
     return new_str
 
