@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>clinicaltrials.gov to RIS</title>
+<meta name="Generator" content="VSCode" />
+<meta name="Author" content="William Witteman" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" href="https://pyscript.net/releases/2023.11.2/core.css" />
+<script type="module" src="https://pyscript.net/releases/2023.11.2/core.js">
+</script>
+
+</head>
+<body>
+    <input type="file" id="csv" name="csv" accept="text/csv, text/tsv, text/txt" />
+
+    <div id="print_output"></div>
+    <br />
+    <p>File Content:</p>
+    <div style="border:2px inset #AAA;cursor:text;height:70%;overflow:auto;width:100%; resize:both">
+      <div id="content">
+      </div>
+    </div>
+
+    <py-script output="print_output">
+import asyncio
+import csv
+import datetime
+from js import document, FileReader
+from pyodide.ffi import create_proxy
+
+async def process_file(event):
+  fileList = event.target.files.to_py()
+  for f in fileList:
+    data = await f.text()
+    reader = csv.reader(data)
+    my_csv = []
+    header = next(reader)
+    for row in reader:
+      pruned_row = [row[0],row[1],row[2],row[4],row[5],row[8],row[20],row[24],row[29]]
+      my_csv.append(pruned_row)
+    
+    ris_tags = ['DOI - ','TI - ','UR - ','J2 - ','AB - ','U1 - ','U2 - ','YR - ','L1 - ']
+    whole_file = ""
+
+    today = datetime.datetime.strftime(datetime.datetime.now(), "%Y/%m/%d")
+
+    for trial in my_csv:
+      ris_str = "TY  - JOUR\n"
+      tags_and_values = zip(ris_tags, trial)
+      for pair in tags_and_values:
+          ris_str += f"{pair[0]}{no_newline(pair[1])}\n"
+      ris_str += "DB - clinicaltrials.gov\n"
+      ris_str += f"RD - {today}\n"
+      ris_str += "ER - \n"
+      #print(ris_str)
+      whole_file += ris_str
+
+    document.getElementById("content").innerHTML = whole_file
+
+def main():
+	# Create a Python proxy for the callback function
+	# process_file() is your function to process events from FileReader
+	file_event = create_proxy(process_file)
+ 
+	# Set the listener to the callback
+	e = document.getElementById("csv")
+	e.addEventListener("change", file_event, False)
+ 
+main()
+</py-script>
+
+</body>
+</html>
