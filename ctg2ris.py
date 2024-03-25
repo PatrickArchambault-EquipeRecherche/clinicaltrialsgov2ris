@@ -85,13 +85,7 @@ def convertCSVtoRIS(csv_filename, ris_filename="example.ris"):
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        print("Text output only.")
-        with open("ctg-studies.csv", encoding="utf8") as fh:
-            file_as_list = []
-            for row in fh:
-                file_as_list.append(row)
-            finished = convertListtoRIS(file_as_list)
-        print(finished)
+        print("USAGE: ctg2ris.py CSVFILENAME RISFILENAME")
     elif len(sys.argv) == 2:
         print("File output.")
         finished = convertCSVtoRIS(sys.argv[1])

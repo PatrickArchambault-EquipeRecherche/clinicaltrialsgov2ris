@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.2/core.css" />
-<script type="module" src="https://pyscript.net/releases/2023.11.2/core.js">
-</script>
+<script type="module" src="https://pyscript.net/releases/2023.11.2/core.js"></script>
+<script type="py" src="list2ris.py"></script>
 
 </head>
 <body>
@@ -26,15 +26,18 @@
     <py-script output="print_output">
 import asyncio
 import csv
-import datetime
 from js import document, FileReader
 from pyodide.ffi import create_proxy
 
 async def process_file(event):
-	fileList = event.target.files.to_py()
-	for f in fileList:
-		data = await f.text()
-		document.getElementById("content").innerHTML = data
+    filename = event.target.files.to_py()
+    for f in fileList:
+        data = await f.text()
+        reader = csv.reader(data)
+        listed_data = []
+        for row in reader:
+            listed_data.append(row)
+        document.getElementById("content").innerHTML = type(data)
  
 def main():
 	# Create a Python proxy for the callback function
